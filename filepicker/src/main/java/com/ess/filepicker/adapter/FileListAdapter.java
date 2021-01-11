@@ -1,17 +1,19 @@
 package com.ess.filepicker.adapter;
 
-import androidx.annotation.Nullable;
+import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.ess.filepicker.R;
 import com.ess.filepicker.model.EssFile;
 import com.ess.filepicker.util.FileSizeUtil;
 import com.ess.filepicker.util.FileUtils;
-import com.ess.filepicker.R;
 
 import java.util.List;
 
@@ -51,16 +53,16 @@ public class FileListAdapter extends BaseQuickAdapter<EssFile, BaseViewHolder> {
                     loadFileCountListener.onLoadFileCount(helper.getAdapterPosition());
                 }
             }
-            textView.setText(String.format(mContext.getString(R.string.folder_desc), item.getChildFileCount(),item.getChildFolderCount()));
+            textView.setText(String.format(getContext().getString(R.string.folder_desc), item.getChildFileCount(),item.getChildFolderCount()));
         } else {
             helper.setVisible(R.id.iv_item_file_select_right, false);
-            textView.setText(String.format(mContext.getString(R.string.file_desc), FileUtils.getDateTime(item.getAbsolutePath()), FileSizeUtil.getAutoFileOrFilesSize(item.getFile())));
+            textView.setText(String.format(getContext().getString(R.string.file_desc), FileUtils.getDateTime(item.getAbsolutePath()), FileSizeUtil.getAutoFileOrFilesSize(item.getFile())));
         }
         helper.setText(R.id.tv_item_file_list, item.getName());
         if(item.isChecked()){
-            helper.setVisible(R.id.checkbox_item_file_list,true);
+            helper.setVisible(R.id.tv_item_selected,true);
         }else {
-            helper.setVisible(R.id.checkbox_item_file_list,false);
+            helper.setVisible(R.id.tv_item_selected,false);
         }
         ImageView imageView = helper.getView(R.id.iv_item_file_select_left);
         String fileNameExtension = FileUtils.getExtension(item.getName()).toLowerCase();
@@ -86,7 +88,7 @@ public class FileListAdapter extends BaseQuickAdapter<EssFile, BaseViewHolder> {
                         .centerCrop()
                         .placeholder(R.mipmap.gif);
                 Glide
-                        .with(mContext)
+                        .with(getContext())
                         .load(item.getAbsolutePath())
                         .apply(options)
                         .into(imageView);
@@ -98,7 +100,7 @@ public class FileListAdapter extends BaseQuickAdapter<EssFile, BaseViewHolder> {
                         .centerCrop()
                         .placeholder(R.mipmap.png);
                 Glide
-                        .with(mContext)
+                        .with(getContext())
                         .load(item.getAbsolutePath())
                         .apply(options2)
                         .into(imageView);

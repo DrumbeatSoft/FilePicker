@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.ess.filepicker.R;
 import com.ess.filepicker.SelectOptions;
 import com.ess.filepicker.adapter.BreadAdapter;
@@ -45,7 +47,7 @@ import java.util.List;
  * 文件浏览界面
  */
 public class SelectFileByBrowserActivity extends AppCompatActivity
-        implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener,
+        implements OnItemClickListener, OnItemChildClickListener,
         View.OnClickListener, EssFileListCallBack, EssFileCountCallBack, FileListAdapter.onLoadFileCountListener {
 
     /*todo 是否可预览文件，默认可预览*/
@@ -122,13 +124,11 @@ public class SelectFileByBrowserActivity extends AppCompatActivity
         mAdapter = new FileListAdapter(new ArrayList<EssFile>());
         mAdapter.setLoadFileCountListener(this);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setOnItemClickListener(this);
 
         mBreadRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mBreadAdapter = new BreadAdapter(new ArrayList<BreadModel>());
         mBreadRecyclerView.setAdapter(mBreadAdapter);
-        mBreadAdapter.bindToRecyclerView(mBreadRecyclerView);
         mBreadAdapter.setOnItemChildClickListener(this);
     }
 
@@ -197,8 +197,7 @@ public class SelectFileByBrowserActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final SelectSdcardAdapter adapter = new SelectSdcardAdapter(FileUtils.getAllSdCardList(mSdCardList));
         recyclerView.setAdapter(adapter);
-        adapter.bindToRecyclerView(recyclerView);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapterIn, View view, int position) {
                 mSelectSdCardWindow.dismiss();

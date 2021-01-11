@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.ess.filepicker.BaseFileFragment;
 import com.ess.filepicker.R;
 import com.ess.filepicker.SelectOptions;
@@ -23,13 +27,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 /**
  * FileTypeListFragment
  */
-public class FileTypeListFragment extends BaseFileFragment implements BaseQuickAdapter.OnItemClickListener,
+public class FileTypeListFragment extends BaseFileFragment implements OnItemClickListener,
         EssMimeTypeCollection.EssMimeTypeCallbacks {
 
     private static final String ARG_FileType = "ARG_FileType";
@@ -86,7 +87,7 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
 
     @Override
     protected void lazyLoad() {
-        mMimeTypeCollection.load(mFileType, mSortType,mLoaderId);
+        mMimeTypeCollection.load(mFileType, mSortType, mLoaderId);
     }
 
     @Override
@@ -97,7 +98,6 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new FileListAdapter(new ArrayList<EssFile>());
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setEmptyView(R.layout.loading_layout);
         mAdapter.setOnItemClickListener(this);
         super.initUI(view);
@@ -119,9 +119,9 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
     @Subscribe
     public void onFreshSortType(FileScanSortChangedEvent event) {
         mSortType = event.getSortType();
-        if(mLoaderId == event.getCurrentItem()+EssMimeTypeCollection.LOADER_ID){
-            mMimeTypeCollection.load(mFileType, mSortType,mLoaderId);
-        }else {
+        if (mLoaderId == event.getCurrentItem() + EssMimeTypeCollection.LOADER_ID) {
+            mMimeTypeCollection.load(mFileType, mSortType, mLoaderId);
+        } else {
             mSortTypeHasChanged = true;
         }
     }
@@ -129,12 +129,12 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(getUserVisibleHint()){
-            if(!isFirstLoad && mSortTypeHasChanged){
+        if (getUserVisibleHint()) {
+            if (!isFirstLoad && mSortTypeHasChanged) {
                 mSortTypeHasChanged = false;
                 mAdapter.setNewData(new ArrayList<EssFile>());
                 mAdapter.setEmptyView(R.layout.loading_layout);
-                mMimeTypeCollection.load(mFileType, mSortType,mLoaderId);
+                mMimeTypeCollection.load(mFileType, mSortType, mLoaderId);
             }
         }
     }
@@ -154,7 +154,7 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
                 mSelectedFileList.remove(index);
                 EventBus.getDefault().post(new FileScanFragEvent(item, false));
                 mAdapter.getData().get(position).setChecked(!mAdapter.getData().get(position).isChecked());
-                mAdapter.notifyItemChanged(position, "");
+                mAdapter.notifyItemChanged(position);
             }
         } else {
             if (mMaxCount <= 0) {
@@ -165,7 +165,7 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
             mSelectedFileList.add(item);
             EventBus.getDefault().post(new FileScanFragEvent(item, true));
             mAdapter.getData().get(position).setChecked(!mAdapter.getData().get(position).isChecked());
-            mAdapter.notifyItemChanged(position, "");
+            mAdapter.notifyItemChanged(position);
         }
 
     }
@@ -185,20 +185,19 @@ public class FileTypeListFragment extends BaseFileFragment implements BaseQuickA
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
         mMimeTypeCollection.onDestroy();
     }
 
     @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-
-    }
-
-    @Override
     public void onFileLoad(List<EssFile> essFileList) {
-        Log.i("TAG","size --> "+essFileList.size());
+        Log.i("TAG", "size --> " + essFileList.size());
         mAdapter.setNewData(essFileList);
         mRecyclerView.scrollToPosition(0);
         if (essFileList.isEmpty()) {

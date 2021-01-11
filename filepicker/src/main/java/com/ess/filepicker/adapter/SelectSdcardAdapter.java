@@ -3,7 +3,7 @@ package com.ess.filepicker.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.ess.filepicker.R;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by 李波 on 2018/2/8.
  */
 
-public class SelectSdcardAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+public class SelectSdcardAdapter extends BaseQuickAdapter<String, BaseViewHolder>{
     public SelectSdcardAdapter(@Nullable List<String> data) {
         super(R.layout.item_select_sdcard,data);
     }

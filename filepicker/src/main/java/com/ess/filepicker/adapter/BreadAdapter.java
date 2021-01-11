@@ -4,7 +4,7 @@ package com.ess.filepicker.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.ess.filepicker.model.BreadModel;
 import com.ess.filepicker.R;
 
@@ -19,11 +19,11 @@ public class BreadAdapter extends BaseQuickAdapter<BreadModel, BaseViewHolder> {
 
     public BreadAdapter(@Nullable List<BreadModel> data) {
         super(R.layout.bread_item,data);
+        addChildClickViewIds(R.id.btn_bread);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, BreadModel item) {
         helper.setText(R.id.btn_bread,item.getCurName());
-        helper.addOnClickListener(R.id.btn_bread);
     }
 }

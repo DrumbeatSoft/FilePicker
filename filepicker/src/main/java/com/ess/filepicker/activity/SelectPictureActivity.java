@@ -5,10 +5,14 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.ess.filepicker.R;
 import com.ess.filepicker.SelectOptions;
 import com.ess.filepicker.adapter.BuketAdapter;
@@ -39,6 +45,7 @@ import java.util.Set;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -46,7 +53,7 @@ import top.zibin.luban.OnCompressListener;
 /**
  * 选择图片界面
  */
-public class SelectPictureActivity extends AppCompatActivity implements EssAlbumCollection.EssAlbumCallbacks, AdapterView.OnItemSelectedListener, EssMediaCollection.EssMediaCallbacks, BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.OnItemClickListener {
+public class SelectPictureActivity extends AppCompatActivity implements EssAlbumCollection.EssAlbumCallbacks, AdapterView.OnItemSelectedListener, EssMediaCollection.EssMediaCallbacks, OnItemChildClickListener, OnItemClickListener {
 
     /*4. 最多可选择个数，默认10*/
     private int mMaxCount = 10;
@@ -121,7 +128,6 @@ public class SelectPictureActivity extends AppCompatActivity implements EssAlbum
         mMediaAdapter = new EssMediaAdapter(new ArrayList<EssFile>());
         mMediaAdapter.setImageResize(UiUtils.getImageResize(this, mRecyclerView));
         mRecyclerView.setAdapter(mMediaAdapter);
-        mMediaAdapter.bindToRecyclerView(mRecyclerView);
         mMediaAdapter.setOnItemChildClickListener(this);
         if (SelectOptions.getInstance().isSingle || SelectOptions.getInstance().maxCount == 1) {
             //单选
@@ -239,7 +245,7 @@ public class SelectPictureActivity extends AppCompatActivity implements EssAlbum
                             @Override
                             public void onSuccess(File file) {
                                 successCount[0]++;
-                                if(successCount[0] == imageList.size()){
+                                if (successCount[0] == imageList.size()) {
                                     Intent result = new Intent();
                                     result.putParcelableArrayListExtra(Const.EXTRA_RESULT_SELECTION, EssFile.getEssFileList(SelectPictureActivity.this, mSelectedFileList));
                                     setResult(RESULT_OK, result);
@@ -253,7 +259,7 @@ public class SelectPictureActivity extends AppCompatActivity implements EssAlbum
                             }
                         })
                         .launch();    //启动压缩
-            }else {
+            } else {
                 Intent result = new Intent();
                 result.putParcelableArrayListExtra(Const.EXTRA_RESULT_SELECTION, EssFile.getEssFileList(SelectPictureActivity.this, mSelectedFileList));
                 setResult(RESULT_OK, result);
