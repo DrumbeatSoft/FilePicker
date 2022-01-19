@@ -15,8 +15,8 @@
   limitations under the License.
   -->
 <resources>
-    <color name="dracula_primary">#393a3e</color>
-    <color name="dracula_primary_dark">#dd393a3e</color>
+    <color name="dracula_primary">#263237</color>
+    <color name="dracula_primary_dark">#1D282C</color>
 
     <color name="dracula_album_popup_bg">#34474E</color>
     <color name="dracula_album_dropdown_title_text">#DEFFFFFF</color>

@@ -15,8 +15,8 @@
   limitations under the License.
   -->
 <resources>
-    <color name="elec_primary">#1bbc9b</color>
-    <color name="elec_primary_dark">#1bbc9b</color>
+    <color name="elec_primary">#393a3e</color>
+    <color name="elec_primary_dark">#dd393a3e</color>
 
     <color name="elec_album_popup_bg">#FFFFFF</color>
     <color name="elec_album_dropdown_title_text">#DE000000</color>

@@ -56,6 +56,7 @@ public class SelectFileByScanActivity extends AppCompatActivity implements ViewP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SelectOptions.getInstance().themeId);
         setContentView(R.layout.activity_select_file_by_scan);
         EventBus.getDefault().register(this);
 

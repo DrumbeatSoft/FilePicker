@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
         pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FilePicker
-                        .from(MainActivity.this)
-                        .chooseForMimeType()
-                        .setMaxCount(3)
-                        .setFileTypes("pdf")
-                        .requestCode(1)
-                        .start();
+//                FilePicker
+//                        .from(MainActivity.this)
+//                        .chooseForMimeType()
+//                        .setMaxCount(3)
+//                        .setFileTypes("pdf")
+//                        .requestCode(1)
+//                        .start();
 //                FindAllFiles.folderMethod1(Environment.getExternalStorageDirectory().getPath());
 //                FindAllFiles.folder(MainActivity.this);
 //                String path = "/storage/emulated/0/Android/data/";
@@ -45,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
 //                    DocumentFile documentFile = DocumentFile.fromTreeUri(MainActivity.this, Uri.parse(FileUriUtils.changeToUri3(path)));
 //                    getFiles(documentFile);
 //                }
+                FilePicker
+                        .from(MainActivity.this)
+                        .chooseForMimeType()
+                        .setMaxCount(10)
+                        .setFileTypes("png", "doc","apk", "mp3", "gif", "txt", "mp4", "pdf")
+                        .setTheme(R.style.AppTheme)
+                        .requestCode(1)
+                        .start();
 
             }
         });
